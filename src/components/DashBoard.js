@@ -1,10 +1,30 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Title from './Title'
+import axios from 'axios'
+
 
 
 class DashBoard extends Component {
+    constructor(props) {
+        super(props);
+        
+
+        this.state= {
+            houses:{}
+        }
+    }
+    
+
+
+componentDidMount(){
+    axios.get('http://localhost:3030/api/getAll').then((res)=>{
+        this.setState({houses: res.data})
+    })
+}
+
     render() {
+        console.log(this.state)
         return (
             <div>
                 <Title />

@@ -1,5 +1,9 @@
+import axios from 'axios'
 
 const initialState = {
+    house:'',
+    username:'',
+    password:'',
     propertyname : 'house de huge',
     propertydescription : 'its a big house',
 	address : '',
@@ -63,6 +67,39 @@ export function updateZip (zip) {
     }
     
 }
+export function updatePassword (password) {
+    return {
+        type: updatePassword,
+        payload: password
+    }
+    
+}
+export function updateUsername (username) {
+    return {
+        type: updateUsername,
+        payload: username
+    }
+    
+}
+export function login( obj, history ) {
+    return {
+      type: login,
+      payload: axios.post( 'http://localhost:3030/api/login', obj ).then( response => {
+        // history.push('/shop');
+        // return response.data;
+      })
+    };
+  }
+  
+  export function register( obj, history ) {
+    return {
+      type: register,
+      payload: axios.post( 'http://localhost:3030/api/register', obj ).then( response => {
+        // history.push('/shop');
+        // return response.data;
+      })
+    };
+  }
 
 
 
@@ -72,6 +109,7 @@ export function updateZip (zip) {
 
 
 function reducer(state = initialState, action){
+    let {payload} = action
     switch(action.type){
         case updatePropertyName:
             return Object.assign({}, state, {propertyname: action.payload})
@@ -85,6 +123,14 @@ function reducer(state = initialState, action){
             return Object.assign({}, state, {housestate: action.payload})
         case updateZip:
             return Object.assign({}, state, {zip: action.payload})
+        case updatePassword:
+            return Object.assign({}, state, {password: action.payload})
+        case updateUsername:
+            return Object.assign({}, state, {username: action.payload})
+        case login + '_FULFILLED':
+            return Object.assign({}, state, { user: payload.username, house: payload.cart, total: payload.total });
+        case register + '_FULFILLED':
+            return Object.assign({}, state, { user: payload.username, house: payload.cart, total: payload.total });
         
 
             default: return state;
